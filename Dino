@@ -1,0 +1,46 @@
+#include <Servo.h> 
+ 
+Servo myservo;
+int lightPin = 0;
+int pos = 120;
+int led13 = 13;
+ 
+void setup() { 
+  
+  Serial.begin(9600);
+  myservo.attach(9); 
+  pinMode(led13, OUTPUT);
+  digitalWrite(led13, LOW);
+  Serial.println("LightOff");
+  
+} 
+ 
+void loop() { 
+  
+  int light = analogRead(lightPin);
+  int lightLevel = map(light, 0, 700, 0, 359);
+  Serial.println(lightLevel);
+   
+  if (pos != 55 && lightLevel > 440){
+     
+    digitalWrite(led13, HIGH);
+    Serial.println("LightOn"); 
+    
+    pos = 50;
+    myservo.write(pos);
+    delay(15); 
+
+  }
+   
+  if(lightLevel < 440 && pos != 120){
+    
+    digitalWrite(led13, LOW);
+    Serial.println("LightOff");
+    
+    pos = 120;
+    myservo.write(120);  
+    delay(15); 
+     
+  }
+
+} 
